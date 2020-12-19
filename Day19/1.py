@@ -28,7 +28,6 @@ with open(r"input") as f:
         else:
             regex_pattern = regex_pattern.replace(m.group(0), grammar[m.group(0)], 1)
     regex_pattern = regex_pattern.replace(" ", "")
-    print(regex_pattern)
     regex_pattern = "^" + regex_pattern + "$"
     total = 0
     while i < len(lines):
