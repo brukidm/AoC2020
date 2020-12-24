@@ -29,6 +29,7 @@ with open(r"input") as f:
             regex_pattern = regex_pattern.replace(m.group(0), grammar[m.group(0)], 1)
     regex_pattern = regex_pattern.replace(" ", "")
     regex_pattern = "^" + regex_pattern + "$"
+    print(regex_pattern)
     total = 0
     while i < len(lines):
         if re.match(regex_pattern, lines[i]):

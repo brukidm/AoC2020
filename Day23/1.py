@@ -24,9 +24,9 @@ with open(r"input") as f:
             numbers[(i + 1) % len(numbers)],
         )
 
-        numbers.remove(t),
+        numbers.remove(t)
         numbers.remove(s)
-        numbers.remove(f),
+        numbers.remove(f)
 
         print("pick up: ", f, s, t)
 
