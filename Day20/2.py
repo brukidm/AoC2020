@@ -120,11 +120,11 @@ with open(r"input") as f:
     
     image = []
     for y in range(3):
-        for i in range(len(image_dict[(0,0)])):
+        for i in range(1, len(image_dict[(0,0)]) - 1):
             row = ""
             for x in range(3):
                 row += "".join(image_dict[(x,y)][i][1:-1])
             image.append(list(row))
     
     for row in np.rot90(np.fliplr(image), 1):
-        print("".join(row)[1:-1])
+        print("".join(row))
