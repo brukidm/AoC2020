@@ -1,9 +1,10 @@
 import numpy as np
+from scipy.signal import convolve2d
 
 def snake_print(mat): 
-    M = N = 3
+    M = N = 12
 
-    image = [ [0]*3 for i in range(3)]
+    image = [ [0]*12 for i in range(12)]
       
     # Traverse through all rows 
     for i in range(M): 
@@ -50,7 +51,7 @@ def search_recursively(tiles, origin):
         elif tiles[current_node].right and tiles[current_node].right.split("-")[0] not in visited:
             where_to_go_next.append(tiles[current_node].right)
             coords = (coords[0] + 1, coords[1])
-    if len(visited) == 9:
+    if len(visited) == 144:
         return visited_image, image
     return None, None
 
@@ -91,7 +92,7 @@ with open(r"input") as f:
         final_tiles[key + "-2"] = Tile(np.rot90(tiles[key].data, 1))
         final_tiles[key + "-3"] = Tile(np.rot90(tiles[key].data, 2))
         final_tiles[key + "-4"] = Tile(np.rot90(tiles[key].data, 3))
-        final_tiles[key + "-5"] = Tile(np.flip(tiles[key].data))
+        final_tiles[key + "-5"] = Tile(np.fliplr(tiles[key].data))
         final_tiles[key + "-6"] = Tile(np.rot90(np.fliplr(tiles[key].data), 1))
         final_tiles[key + "-7"] = Tile(np.rot90(np.fliplr(tiles[key].data), 2))
         final_tiles[key + "-8"] = Tile(np.rot90(np.fliplr(tiles[key].data), 3))
@@ -119,12 +120,40 @@ with open(r"input") as f:
                 break
     
     image = []
-    for y in range(3):
+    for y in range(12):
         for i in range(1, len(image_dict[(0,0)]) - 1):
             row = ""
-            for x in range(3):
+            for x in range(12):
                 row += "".join(image_dict[(x,y)][i][1:-1])
             image.append(list(row))
     
-    for row in np.rot90(np.fliplr(image), 1):
-        print("".join(row))
+    images = []
+    images.append(image)
+    images.append(np.rot90(image, 1))
+    images.append(np.rot90(image, 2))
+    images.append(np.rot90(image, 3))
+    images.append(np.fliplr(image))
+    images.append(np.rot90(np.fliplr(image), 1))
+    images.append(np.rot90(np.fliplr(image), 2))
+    images.append(np.rot90(np.fliplr(image), 3))
+
+    monster = np.array([[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0], 
+    [1,0,0,0,0,1,1,0,0,0,0,1,1,0,0,0,0,1,1,1],
+    [0,1,0,0,1,0,0,1,0,0,1,0,0,1,0,0,1,0,0,0]])
+
+    for image in images:
+        count = 0
+        image = [[val.replace('#', "1") for val in row] for row in image]
+        image = [[val.replace('.', "0") for val in row] for row in image]
+        image = np.array([[int(val) for val in row] for row in image])
+        result_space = convolve2d(image, monster, mode='valid')
+        result_space = result_space.astype(np.uint8)
+        count_monsters = np.count_nonzero(result_space == monster.sum())
+        if count_monsters:
+            count = count_monsters
+
+        if count:
+            total = image.sum() - monster.sum() * count
+            print(total)
+
+       
