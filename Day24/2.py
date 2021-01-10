@@ -16,6 +16,7 @@ def neighbors(tile):
 
 with open(r"input") as f:
     lines = f.read().split("\n")
+    # part 1
     for line in lines:
         # e, se, sw, w, nw, and ne
         i = 0
@@ -62,12 +63,14 @@ with open(r"input") as f:
         else:
             tiles[(x, y)] = "."
 
+    # part 2
     days = -1
     while days < 100:
         xs, ys = zip(*tiles.keys())
         for i in range(min(xs) - 1, max(xs) + 2):
             for j in range(min(ys) - 1, max(ys) + 2):
                 coord = (i, j)
+                # if the tile is not "registered" in our grid
                 if coord not in tiles:
                     tiles[coord] = "."
         new_tiles = deepcopy(tiles)
