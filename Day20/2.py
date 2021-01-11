@@ -1,27 +1,6 @@
 import numpy as np
 from scipy.signal import convolve2d
 
-def snake_print(mat): 
-    M = N = 12
-
-    image = [ [0]*12 for i in range(12)]
-      
-    # Traverse through all rows 
-    for i in range(M): 
-        if i % 2 == 0: 
-            for j in range(N): 
-                print(str(mat[i][j]), 
-                          end = " ")
-                image[i][j] = str(mat[i][j])
-
-        else: 
-            for j in range(N - 1, -1, -1): 
-                print(str(mat[i][j]),  
-                          end = " ")
-                image[i][j] = str(mat[i][j])
-        print()       
-    return image
-
 class Tile():
     def __init__(self, data):
         self.data = data
