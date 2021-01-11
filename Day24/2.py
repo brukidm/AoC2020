@@ -22,7 +22,6 @@ with open(r"input") as f:
         i = 0
         x = 0
         y = 0
-        z = 0
         while i < len(line):
             direction = line[i]
             if direction not in ("e", "w"):
